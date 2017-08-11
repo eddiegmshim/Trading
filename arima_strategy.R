@@ -60,13 +60,12 @@ end_date = as.Date('2017-01-01')
 days_timeframe = 100
 
 model_predict = perform_strat(stock_ticker, start_date, end_date, days_timeframe)
-buy_sell = sign(sign(model_predict)+1) #converts price predictions into binary actions. 1 = buy/hold, 0 = sell/do nothing
-
+buy_sell = sign(sign(model_predict)-1)+1 #converts price predictions into binary actions. 1 = buy/hold, 0 = sell/do nothing
 
 getSymbols(stock_ticker, src = 'google', from = start_date, to = end_date)
 true_returns = as.numeric(dailyReturn(get(paste(stock_ticker))))
 
-strategy_returns = buy_sell*true_returns
+strategy_returns_daily = buy_sell*true_returns
 strategy_returns = sum(buy_sell * true_returns)
 
 
